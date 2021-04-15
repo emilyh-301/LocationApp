@@ -1,0 +1,3 @@
+include ':SimplePlacePicker'
+include ':app'
+rootProject.name = "LocationApp2"
