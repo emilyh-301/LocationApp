@@ -1,7 +1,7 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Location App</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_maps" tools:ignore="MissingTranslation">Map</string>
+    <string name="title_activity_main" translatable="false">MainActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="create">Create a new</string>
     <string name="reminder">Reminder</string>
@@ -13,16 +13,14 @@
     <string name="reminderName">Reminder name</string>
     <string name="selectLocation">Select location</string>
     <string name="reminderLocal">Reminder location</string>
-    <string name="selectecLocal">Selected location</string>
+    <string name="selectedLocal">Selected location</string>
     <string name="finish">Finish</string>
     <string name="TextName">Text name</string>
     <string name="textLocation">Text location</string>
     <string name="settext">Set text</string>
     <string name="sendTo">Send to</string>
     <string name="phoneNum">Phone number</string>
-
-    <string name="todo">TODO</string>
-    <string name="title_activity_list_notifs">ListNotifs</string>
+    <string name="select">Select location</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.

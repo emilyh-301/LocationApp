@@ -35,6 +35,6 @@
         android:layout_alignParentEnd="true"
         android:padding="8dp"
         android:layout_margin="5dp"
-        android:text="back" />
+        android:text="@string/select" />
 
 </RelativeLayout>

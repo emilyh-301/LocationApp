@@ -18,6 +18,8 @@ public class createNewReminderActivity extends AppCompatActivity {
     }
 
     public void backToHome(View view){
+        // add the stuff to the bd on this click
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
