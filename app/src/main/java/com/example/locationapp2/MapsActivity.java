@@ -27,6 +27,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     SearchView searchView;
+    LatLng harrisburg = new LatLng(40, -76);
+    MarkerOptions myMarker = new MarkerOptions().position(harrisburg).draggable(true);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
                     // on below line we are adding marker to that position.
-                    mMap.addMarker(new MarkerOptions().position(latLng).title(location));
+                    mMap.addMarker( myMarker.position(latLng).title(location));
 
                     // below line is to animate camera to that position.
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
@@ -101,22 +103,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final double[] lat = new double[1];
         final double[] lng = new double[1];
 
-        // Add a marker in Sydney and move the camera
-        LatLng harrisburg = new LatLng(40, -76);
-        mMap.addMarker(new MarkerOptions().position(harrisburg).draggable(true));
+        // Add a marker in Harrisburg and move the camera
+        mMap.addMarker(myMarker);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(harrisburg));
 
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker marker) {
-
             }
-
             @Override
             public void onMarkerDrag(Marker marker) {
-
             }
-
             @Override
             public void onMarkerDragEnd(Marker marker) {
                 lat[0] = marker.getPosition().latitude;
@@ -125,11 +122,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-
-
     public void backToSetReminder(View view){
         Intent intent = new Intent(this, createNewReminderActivity.class);
+        intent.putExtra("lat", myMarker.getPosition().latitude);
+        intent.putExtra("long", myMarker.getPosition().longitude);
         startActivity(intent);
     }
-
 }

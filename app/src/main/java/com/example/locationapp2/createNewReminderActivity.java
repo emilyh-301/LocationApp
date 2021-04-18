@@ -35,9 +35,7 @@ public class createNewReminderActivity extends AppCompatActivity {
 
         //bundle.putString(SimplePlacePicker.API_KEY, apiKey);
         //bundle.putString(SimplePlacePicker.COUNTRY, country);
-
         //bundle.putStringArray(SimplePlacePicker.SUPPORTED_AREAS, supportedAreas);
-
         //intent.putExtras(bundle);
         startActivityForResult(intent, SimplePlacePicker.SELECT_LOCATION_REQUEST_CODE);
     }
