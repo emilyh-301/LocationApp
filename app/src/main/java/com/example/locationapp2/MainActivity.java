@@ -17,11 +17,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    //private GeofencingClient geofencingClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("test", "test");
+        //Log.d("test", "test");
     }
 
     public void newReminder(View view){

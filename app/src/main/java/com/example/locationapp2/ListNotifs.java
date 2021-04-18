@@ -21,7 +21,7 @@ public class ListNotifs extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_notifs);
+        setContentView(R.layout.list_item);
         if (savedInstanceState != null) {
             //boolean filtered = savedInstanceState.getBoolean("filtered");
         }
@@ -29,15 +29,15 @@ public class ListNotifs extends AppCompatActivity {
         // Set the action bar
         //setSupportActionBar(findViewById(R.id.toolbar));
 
-//        RecyclerView recyclerView = findViewById(R.id.lstNotifs);
-//        NotifListAdapter adapter;
-//        adapter = new NotifListAdapter(this);
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView recyclerView = findViewById(R.id.lstNotifs);
+        NotifListAdapter adapter;
+        adapter = new NotifListAdapter(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //NotifViewModel notifViewModel = new ViewModelProvider(this).get(NotifViewModel.class);
-
-        //notifViewModel.getAllNotifs().observe(this, adapter::setNotifs);
+        NotifViewModel notifViewModel = new NotifViewModel(this.getApplication()); //.get(NotifViewModel.class);
+        notifViewModel.getAllNotifs().observe(this, adapter::setNotifs);
     }
 
     public class NotifListAdapter extends RecyclerView.Adapter<NotifListAdapter.NotifViewHolder> {
@@ -53,7 +53,7 @@ public class ListNotifs extends AppCompatActivity {
             }
         }
         private final LayoutInflater layoutInflater;
-        private List<Notif> notifs; // Cached copy of jokes
+        private List<Notif> notifs; // Cached copy of notifs
 
         NotifListAdapter(Context context) {
             layoutInflater = LayoutInflater.from(context);
