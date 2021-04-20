@@ -68,6 +68,6 @@
         <activity android:name=".ListNotifs">
 
         </activity>
-    </>
+    </application>
 
 </manifest>

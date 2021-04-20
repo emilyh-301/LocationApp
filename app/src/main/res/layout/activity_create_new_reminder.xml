@@ -82,7 +82,7 @@
             app:layout_constraintTop_toBottomOf="@+id/button" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/theLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
