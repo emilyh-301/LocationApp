@@ -28,7 +28,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     SearchView searchView;
-    //LatLng harrisburg = new LatLng(40, -76);
+    LatLng harrisburg = new LatLng(40, -76);
     MarkerOptions myMarker = new MarkerOptions().position(new LatLng(40, -76)).draggable(true);
 
     @Override
@@ -73,7 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
                     // on below line we are adding marker to that position.
-                    mMap.addMarker(new MarkerOptions().position(latLng).title(location));
+                    mMap.addMarker(myMarker.position(latLng).title(location));
 
                     // below line is to animate camera to that position.
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
@@ -107,7 +107,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Harrisburg and move the camera
         mMap.addMarker(myMarker);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(40, -76)));
-
+        mMap.setOnMarkerDragListener(this);
  /*       mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker marker) {
@@ -149,6 +149,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //lat[0] = marker.getPosition().latitude;
         //lng[0] = marker.getPosition().longitude;
         Log.d("position changed", "position changed");
-        myMarker.position(new LatLng(myMarker.getPosition().latitude, myMarker.getPosition().longitude));
+        myMarker.position(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude));
+        mMap.addMarker(myMarker);
     }
 }

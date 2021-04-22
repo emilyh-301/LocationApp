@@ -53,10 +53,9 @@ public class createNewReminderActivity extends AppCompatActivity {
         // add the stuff to the bd on this click
         // id, title, message, lat, lng
         NotifDatabase.insert(new Notif(0, title.getText().toString(), message.getText().toString(), latLng.latitude, latLng.longitude));
-
+        Toast.makeText(this, "Reminder Created", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        Toast.makeText(this, "Reminder Created", Toast.LENGTH_SHORT).show();
     }
 
     public void toMap(View view){
