@@ -6,43 +6,57 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.essam.simpleplacepicker.MapActivity;
 import com.essam.simpleplacepicker.utils.SimplePlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 
-import org.w3c.dom.Text;
-
 public class createNewReminderActivity extends AppCompatActivity {
 
     LatLng latLng = null;
+    TextView title;
+    TextView message;
+    TextView theLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_reminder);
         Bundle bundle = getIntent().getExtras();
-        TextView theLocation;
+        title = findViewById(R.id.theTitle);
+        message = findViewById(R.id.theMessage);
+        theLocation = findViewById(R.id.theLocation);
 
-        double lat = -1.0, lng = -1.0;
-        if(bundle.getString("lat") != null){
-            lat = Double.parseDouble(bundle.getString("lat"));
+        if(savedInstanceState != null){
+            title.setText(savedInstanceState.getString("title"));
+            message.setText(savedInstanceState.getString("message"));
+            theLocation.setText(savedInstanceState.getString("latlng"));
         }
-        if(bundle.getString("long") != null){
-            lng = Double.parseDouble(bundle.getString("long"));
+
+        try {
+            double lat = -1.0, lng = -1.0;
+            lat = bundle.getDouble("lat");
+            lng = bundle.getDouble("long");
+
+            if (lat != -1.0 && lng != -1.0) {
+                latLng = new LatLng(lat, lng);
+                theLocation.setText(latLng.latitude + ", " + latLng.longitude);
+            }
         }
-        if(lat != -1.0 && lng != -1.0) {
-            latLng = new LatLng(lat, lng);
-            theLocation = findViewById(R.id.theLocation);
-            theLocation.setText(latLng.latitude + ", " + latLng.longitude);
+        catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 
     public void backToHome(View view){
         // add the stuff to the bd on this click
+        // id, title, message, lat, lng
+        NotifDatabase.insert(new Notif(0, title.getText().toString(), message.getText().toString(), latLng.latitude, latLng.longitude));
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        Toast.makeText(this, "Reminder Created", Toast.LENGTH_SHORT).show();
     }
 
     public void toMap(View view){
@@ -52,7 +66,9 @@ public class createNewReminderActivity extends AppCompatActivity {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
+        outState.putString("title", title.getText().toString());
+        outState.putString("message", message.getText().toString());
+        outState.putString("latlng", theLocation.getText().toString());
         super.onSaveInstanceState(outState);
     }
 

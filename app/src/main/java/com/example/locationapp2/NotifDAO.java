@@ -11,15 +11,15 @@ import androidx.room.Update;
 
 @Dao
 public interface NotifDAO {
-    @Query("SELECT * FROM NotifTable WHERE perm = :onlyPerm " +
-            "ORDER BY title COLLATE NOCASE, rowid")
-    LiveData<List<Notif>> getPerm(boolean onlyPerm);
 
     @Query("SELECT * FROM NotifTable ORDER BY title COLLATE NOCASE, id")
     LiveData<List<Notif>> getAll();
 
     @Query("SELECT * FROM NotifTable WHERE id = :notifId")
     Notif getById(int notifId);
+
+    @Query("SELECT * FROM NotifTable WHERE title = :notifTitle")
+    Notif getByTitle(String notifTitle);
 
     @Insert
     void insert(Notif... notifs);

@@ -4,15 +4,17 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.android.gms.maps.model.LatLng;
+
 @Entity(tableName="NotifTable")
 public class Notif {
 
-    public Notif(int id, String title, String message, String location, boolean perm) {
+    public Notif(int id, String title, String message, double lat, double lng) {
         this.id = id;
         this.title = title;
         this.message = message;
-        this.location = location;
-        this.perm = perm;
+        this.lat = lat;
+        this.lng = lng;
     }
 
     // Assign 0 to id to have it be auto generated
@@ -26,9 +28,10 @@ public class Notif {
     @ColumnInfo(name = "message")
     public String message;
 
-    @ColumnInfo(name = "location")
-    public String location;
+    @ColumnInfo(name = "lat")
+    public double lat;
 
-    @ColumnInfo(name = "perm")
-    public boolean perm;
+    @ColumnInfo(name = "long")
+    public double lng;
+
 }

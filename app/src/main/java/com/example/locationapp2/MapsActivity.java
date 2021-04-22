@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,12 +24,12 @@ import java.util.List;
 // use the website below for reference
 // https://www.geeksforgeeks.org/how-to-add-searchview-in-google-maps-in-android/
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerDragListener {
 
     private GoogleMap mMap;
     SearchView searchView;
-    LatLng harrisburg = new LatLng(40, -76);
-    MarkerOptions myMarker = new MarkerOptions().position(harrisburg).draggable(true);
+    //LatLng harrisburg = new LatLng(40, -76);
+    MarkerOptions myMarker = new MarkerOptions().position(new LatLng(40, -76)).draggable(true);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
                     // on below line we are adding marker to that position.
-                    mMap.addMarker( myMarker.position(latLng).title(location));
+                    mMap.addMarker(new MarkerOptions().position(latLng).title(location));
 
                     // below line is to animate camera to that position.
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
@@ -100,14 +101,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        final double[] lat = new double[1];
-        final double[] lng = new double[1];
+        double[] lat = new double[1];
+        double[] lng = new double[1];
 
         // Add a marker in Harrisburg and move the camera
         mMap.addMarker(myMarker);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(harrisburg));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(40, -76)));
 
-        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+ /*       mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker marker) {
             }
@@ -116,10 +117,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             @Override
             public void onMarkerDragEnd(Marker marker) {
+                LatLng latLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
                 lat[0] = marker.getPosition().latitude;
                 lng[0] = marker.getPosition().longitude;
+                marker.setPosition(latLng);
             }
-        });
+        });*/
     }
 
     public void backToSetReminder(View view){
@@ -127,5 +130,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         intent.putExtra("lat", myMarker.getPosition().latitude);
         intent.putExtra("long", myMarker.getPosition().longitude);
         startActivity(intent);
+    }
+
+    @Override
+    public void onMarkerDragStart(Marker marker) {
+        Log.d("onMarkerDragStart", "onMarkerDragStart");
+    }
+
+    @Override
+    public void onMarkerDrag(Marker marker) {
+        Log.d("onMarkerDrag", "onMarkerDrag");
+    }
+
+    @Override
+    public void onMarkerDragEnd(Marker marker) {
+        //LatLng latLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
+        //LatLng latLng = new LatLng(myMarker.getPosition().latitude, myMarker.getPosition().longitude);
+        //lat[0] = marker.getPosition().latitude;
+        //lng[0] = marker.getPosition().longitude;
+        Log.d("position changed", "position changed");
+        myMarker.position(new LatLng(myMarker.getPosition().latitude, myMarker.getPosition().longitude));
     }
 }

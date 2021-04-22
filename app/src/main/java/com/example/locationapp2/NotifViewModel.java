@@ -14,12 +14,12 @@ public class NotifViewModel extends AndroidViewModel {
         notifs = NotifDatabase.getDatabase(getApplication()).notifDAO().getAll();
     }
 
-    public void filterNotifs(boolean onlyLiked) {
-        if (onlyLiked)
-            notifs = NotifDatabase.getDatabase(getApplication()).notifDAO().getPerm(true);
-        else
-            notifs = NotifDatabase.getDatabase(getApplication()).notifDAO().getAll();
-    }
+//    public void filterNotifs(boolean onlyLiked) {
+//        if (onlyLiked)
+//            notifs = NotifDatabase.getDatabase(getApplication()).notifDAO().getPerm(true);
+//        else
+//            notifs = NotifDatabase.getDatabase(getApplication()).notifDAO().getAll();
+//    }
 
     public LiveData<List<Notif>> getAllNotifs() {
         return notifs;

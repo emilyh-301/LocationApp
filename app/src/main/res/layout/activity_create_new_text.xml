@@ -30,10 +30,10 @@
             android:layout_marginTop="16dp"
             android:text="@string/settext"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+            app:layout_constraintTop_toBottomOf="@+id/theTitle" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/theTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -47,7 +47,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextTextMultiLine"
+            android:id="@+id/theMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -61,7 +61,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/selectLocationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -79,7 +79,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/textLocation"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintTop_toBottomOf="@+id/selectLocationButton" />
 
         <TextView
             android:id="@+id/textView4"
@@ -92,7 +92,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/finishButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -112,7 +112,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/sendTo"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
+            app:layout_constraintTop_toBottomOf="@+id/theMessage" />
 
         <EditText
             android:id="@+id/editTextTextPersonName2"
