@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Log.d("test", "test");
     }
 
     public void newReminder(View view){
@@ -33,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void newText(View view){
         Intent intent = new Intent(this, createNewTextActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToListView(View view){
+        Intent intent = new Intent(this, ListNotifs.class);
         startActivity(intent);
     }
 

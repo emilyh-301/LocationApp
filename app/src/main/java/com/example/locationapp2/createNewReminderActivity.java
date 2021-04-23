@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,8 +17,8 @@ import com.google.android.gms.maps.model.LatLng;
 public class createNewReminderActivity extends AppCompatActivity {
 
     LatLng latLng = null;
-    TextView title;
-    TextView message;
+    EditText title;
+    EditText message;
     TextView theLocation;
 
     @Override
@@ -29,6 +31,7 @@ public class createNewReminderActivity extends AppCompatActivity {
         theLocation = findViewById(R.id.theLocation);
 
         if(savedInstanceState != null){
+            Log.d("onCreate not null", "onCreate not null");
             title.setText(savedInstanceState.getString("title"));
             message.setText(savedInstanceState.getString("message"));
             theLocation.setText(savedInstanceState.getString("latlng"));
@@ -45,14 +48,15 @@ public class createNewReminderActivity extends AppCompatActivity {
             }
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
     }
 
     public void backToHome(View view){
         // add the stuff to the bd on this click
         // id, title, message, lat, lng
-        NotifDatabase.insert(new Notif(0, title.getText().toString(), message.getText().toString(), latLng.latitude, latLng.longitude));
+        NotifDatabase db = NotifDatabase.getDatabase(this);
+        db.insert(new Notif(0, title.getText().toString(), message.getText().toString(), latLng.latitude, latLng.longitude));
         //Toast.makeText(this, "Reminder Created", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -65,10 +69,31 @@ public class createNewReminderActivity extends AppCompatActivity {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        Log.d("onSave", "onSave");
         outState.putString("title", title.getText().toString());
         outState.putString("message", message.getText().toString());
         outState.putString("latlng", theLocation.getText().toString());
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        onSaveInstanceState(new Bundle());
+        Log.d("onPause", "onPause");
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle bundle) {
+        Log.d("onRestore", "onRestore");
+        title.setText(bundle.getString("title"));
+        message.setText(bundle.getString("message"));
+        theLocation.setText(bundle.getString("latlng"));
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
     }
 
     public void placePicker(View view){
@@ -81,5 +106,4 @@ public class createNewReminderActivity extends AppCompatActivity {
         //intent.putExtras(bundle);
         startActivityForResult(intent, SimplePlacePicker.SELECT_LOCATION_REQUEST_CODE);
     }
-
 }

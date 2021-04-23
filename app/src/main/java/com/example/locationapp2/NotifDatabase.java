@@ -24,7 +24,7 @@ public abstract class NotifDatabase extends RoomDatabase {
             synchronized (NotifDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            NotifDatabase.class, "notig_database")
+                            NotifDatabase.class, "notif_database")
                             .addCallback(createNotifDatabaseCallback)
                             .build();
                 }
@@ -33,7 +33,7 @@ public abstract class NotifDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    // Note this call back will be run
+    // Note this callback will be run
     private static RoomDatabase.Callback createNotifDatabaseCallback = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
@@ -75,7 +75,6 @@ public abstract class NotifDatabase extends RoomDatabase {
             }
         }.execute(notifId);
     }
-
 
     public static void update(Notif notif) {
         new AsyncTask<Notif, Void, Void> () {
