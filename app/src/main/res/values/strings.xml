@@ -3,27 +3,28 @@
     <string name="title_activity_maps" tools:ignore="MissingTranslation">Map</string>
     <string name="title_activity_main" translatable="false">MainActivity</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="create">Create a new</string>
-    <string name="reminder">Reminder</string>
-    <string name="testmsg">Text message</string>
-    <string name="search">Search</string>
-    <string name="viewset">View my set notifications</string>
-    <string name="title">Location-based reminders</string>
-    <string name="setReminderText">Set reminder text</string>
-    <string name="reminderName">Reminder name</string>
-    <string name="selectLocation">Select location</string>
-    <string name="reminderLocal">Reminder location</string>
-    <string name="selectedLocal">Selected location</string>
-    <string name="finish">Finish</string>
-    <string name="TextName">Text name</string>
-    <string name="textLocation">Text location</string>
-    <string name="settext">Set text</string>
-    <string name="sendTo">Send to</string>
-    <string name="phoneNum">Phone number</string>
-    <string name="select">Select location</string>
+    <string name="create" translatable="false">Create a new</string>
+    <string name="reminder" translatable="false">Reminder</string>
+    <string name="testmsg" translatable="false">Text message</string>
+    <string name="search" translatable="false">Search</string>
+    <string name="viewset" translatable="false">View my set notifications</string>
+    <string name="title" translatable="false">Location-based reminders</string>
+    <string name="setReminderText" translatable="false">Set reminder text</string>
+    <string name="reminderName" translatable="false">Reminder name</string>
+    <string name="selectLocation" translatable="false">Select location</string>
+    <string name="reminderLocal" translatable="false">Reminder location</string>
+    <string name="selectedLocal" translatable="false">Selected location</string>
+    <string name="finish" translatable="false">Finish</string>
+    <string name="TextName" translatable="false">Text name</string>
+    <string name="textLocation" translatable="false">Text location</string>
+    <string name="settext" translatable="false">Set text</string>
+    <string name="sendTo" translatable="false">Send to</string>
+    <string name="phoneNum" translatable="false">Phone number</string>
+    <string name="select" translatable="false">Select location</string>
+    <string name="hello" translatable="false">Hello</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
-    <string name="hello_world">Hello Square World!</string>
+    <string name="hello_world" translatable="false">Hello Square World!</string>
 </resources>

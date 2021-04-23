@@ -39,53 +39,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
-        searchView = findViewById(R.id.idSearchView);
-
-        // adding on query listener for our search view.
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // on below line we are getting the
-                // location name from search view.
-                String location = searchView.getQuery().toString();
-
-                // below line is to create a list of address
-                // where we will store the list of all address.
-                List<Address> addressList = null;
-
-                // checking if the entered location is null or not.
-                if (location != null || location.equals("")) {
-                    // on below line we are creating and initializing a geo coder.
-                    Geocoder geocoder = new Geocoder(MapsActivity.this);
-                    try {
-                        // on below line we are getting location from the
-                        // location name and adding that location to address list.
-                        addressList = geocoder.getFromLocationName(location, 1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    // on below line we are getting the location
-                    // from our list a first position.
-                    Address address = addressList.get(0);
-
-                    // on below line we are creating a variable for our location
-                    // where we will add our locations latitude and longitude.
-                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-
-                    // on below line we are adding marker to that position.
-                    mMap.addMarker(myMarker.position(latLng).title(location));
-
-                    // below line is to animate camera to that position.
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
+//        searchView = findViewById(R.id.idSearchView);
+//
+//        // adding on query listener for our search view.
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//
+//                String location = searchView.getQuery().toString();
+//                List<Address> addressList = null;
+//                // checking if the entered location is null or not.
+//                if (location != null || location.equals("")) {
+//                    // on below line we are creating and initializing a geo coder.
+//                    Geocoder geocoder = new Geocoder(MapsActivity.this);
+//                    try {
+//                        addressList = geocoder.getFromLocationName(location, 1);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Address address = addressList.get(0);
+//                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+//                    mMap.addMarker(myMarker.position(latLng).title(location));
+//                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+//                }
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                return false;
+//            }
+//        });
 
         mapFragment.getMapAsync(this);
     }
@@ -108,21 +92,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(myMarker);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(40, -76)));
         mMap.setOnMarkerDragListener(this);
- /*       mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
-            @Override
-            public void onMarkerDragStart(Marker marker) {
-            }
-            @Override
-            public void onMarkerDrag(Marker marker) {
-            }
-            @Override
-            public void onMarkerDragEnd(Marker marker) {
-                LatLng latLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
-                lat[0] = marker.getPosition().latitude;
-                lng[0] = marker.getPosition().longitude;
-                marker.setPosition(latLng);
-            }
-        });*/
     }
 
     public void backToSetReminder(View view){
@@ -134,21 +103,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMarkerDragStart(Marker marker) {
-        Log.d("onMarkerDragStart", "onMarkerDragStart");
+        // nothing needs to happen here
     }
 
     @Override
     public void onMarkerDrag(Marker marker) {
-        Log.d("onMarkerDrag", "onMarkerDrag");
+        // nothing needs to happen here
     }
 
     @Override
     public void onMarkerDragEnd(Marker marker) {
-        //LatLng latLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
-        //LatLng latLng = new LatLng(myMarker.getPosition().latitude, myMarker.getPosition().longitude);
-        //lat[0] = marker.getPosition().latitude;
-        //lng[0] = marker.getPosition().longitude;
-        Log.d("position changed", "position changed");
         myMarker.position(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude));
         mMap.addMarker(myMarker);
     }
