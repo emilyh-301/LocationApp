@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-
 import androidx.fragment.app.DialogFragment;
 
 public class MessageDialog extends DialogFragment {
@@ -35,11 +34,11 @@ public class MessageDialog extends DialogFragment {
         latlng = getArguments().getString("punchline");
         builder.setTitle(message).setMessage(latlng)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int x) {
-                listener.onClick();
-            }
-        });
+                    @Override
+                    public void onClick(DialogInterface dialog, int x) {
+                        listener.onClick();
+                    }
+                });
         return builder.create();
     }
 

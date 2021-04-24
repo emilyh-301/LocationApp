@@ -18,42 +18,44 @@ import java.util.List;
 
 public class ListNotifs extends AppCompatActivity {
 
+    NotifViewModel notifViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_item);
+        setContentView(R.layout.activity_list_notifs);
         if (savedInstanceState != null) {
             //boolean filtered = savedInstanceState.getBoolean("filtered");
         }
 
         // Set the action bar
         //setSupportActionBar(findViewById(R.id.toolbar));
+        NotifDatabase db = NotifDatabase.getDatabase(this);
 
         RecyclerView recyclerView = findViewById(R.id.lstNotifs);
-        NotifListAdapter adapter;
-        adapter = new NotifListAdapter(this);
+        NotifListAdapter adapter = new NotifListAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //NotifViewModel notifViewModel = new ViewModelProvider(this).get(NotifViewModel.class);
-        NotifViewModel notifViewModel = new NotifViewModel(this.getApplication()); //.get(NotifViewModel.class);
+        notifViewModel = new NotifViewModel(this.getApplication()); //.get(NotifViewModel.class);
         notifViewModel.getAllNotifs().observe(this, adapter::setNotifs);
     }
 
     public class NotifListAdapter extends RecyclerView.Adapter<NotifListAdapter.NotifViewHolder> {
 
         public class NotifViewHolder extends RecyclerView.ViewHolder {
-
-            private TextView tv;
+            //private TextView tv;
             private Notif notif;
 
             private NotifViewHolder(View itemView) {
                 super(itemView);
-                tv = tv.findViewById(R.id.textView);
+                //tv = tv.findViewById(R.id.textView);
             }
         }
         private final LayoutInflater layoutInflater;
-        private List<Notif> notifs; // Cached copy of notifs
+        // notifs is a cached copy of notifs, but what goes here???
+        private List<Notif> notifs; // = (List<Notif>) notifViewModel.getAllNotifs();
 
         NotifListAdapter(Context context) {
             layoutInflater = LayoutInflater.from(context);

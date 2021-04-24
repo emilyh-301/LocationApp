@@ -24,9 +24,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LocationApp2"
         tools:replace="android:theme">
+<!--        <uses-library-->
+<!--            android:name="com.google.android.wearable"-->
+<!--            android:required="true" />-->
         <uses-library
-            android:name="com.google.android.wearable"
-            android:required="true" />
+            android:name="com.google.android.maps"
+            android:required="false"/>
 
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
@@ -36,15 +39,16 @@
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
 
-        <activity
-            android:name=".MessageDialog"
-            android:label="@string/title_activity_message_dialog">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--        <activity-->
+<!--            android:name=".MessageDialog"/>-->
+<!--            android:label="@string/title_activity_message_dialog">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
         <activity android:name=".FindLocation" />
         <activity
             android:name=".MainActivity"

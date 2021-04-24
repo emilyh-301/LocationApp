@@ -35,6 +35,7 @@ public class createNewReminderActivity extends AppCompatActivity {
         message = findViewById(R.id.theMessage);
         theLocation = findViewById(R.id.theLocation);
 
+        // saving state either with onSaveInstanceState or shared preferences
         if(savedInstanceState != null){
             Log.d("onCreate not null", "onCreate not null");
             title.setText(savedInstanceState.getString("title"));
@@ -73,7 +74,11 @@ public class createNewReminderActivity extends AppCompatActivity {
         else{
             NotifDatabase db = NotifDatabase.getDatabase(this);
             db.insert(new Notif(0, title.getText().toString(), message.getText().toString(), latLng.latitude, latLng.longitude));
-            //Toast.makeText(this, "Reminder Created", Toast.LENGTH_SHORT).show();
+
+            title.setText("");
+            message.setText("");
+            theLocation.setText("");
+
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
@@ -94,6 +99,8 @@ public class createNewReminderActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+    // must use shared prefs in onPause because going to the map activity
+    // and then coming back to this activity doesn't call onSaveInstanceState
     @Override
     protected void onPause(){
         super.onPause();
@@ -123,6 +130,9 @@ public class createNewReminderActivity extends AppCompatActivity {
     }
 
     public void clickCancel(View view){
+        title.setText("");
+        message.setText("");
+        theLocation.setText("");
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -130,7 +140,6 @@ public class createNewReminderActivity extends AppCompatActivity {
     public void placePicker(View view){
         Intent intent = new Intent(this, MapActivity.class);
         Bundle bundle = new Bundle();
-
         //bundle.putString(SimplePlacePicker.API_KEY, apiKey);
         //bundle.putString(SimplePlacePicker.COUNTRY, country);
         //bundle.putStringArray(SimplePlacePicker.SUPPORTED_AREAS, supportedAreas);
