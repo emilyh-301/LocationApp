@@ -3,6 +3,7 @@ package com.example.locationapp2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,10 +17,11 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class createNewReminderActivity extends AppCompatActivity {
 
-    LatLng latLng = null;
-    EditText title;
-    EditText message;
-    TextView theLocation;
+    private LatLng latLng = null;
+    private EditText title;
+    private EditText message;
+    private TextView theLocation;
+    private boolean isSavedInstanceState = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,14 @@ public class createNewReminderActivity extends AppCompatActivity {
             title.setText(savedInstanceState.getString("title"));
             message.setText(savedInstanceState.getString("message"));
             theLocation.setText(savedInstanceState.getString("latlng"));
+        }
+        else{
+            SharedPreferences prefs = getPreferences(MODE_PRIVATE); // singleton
+            if (prefs != null){
+                title.setText(prefs.getString("title",""));
+                message.setText(prefs.getString("message",""));
+                theLocation.setText(prefs.getString("latlng",""));
+            }
         }
 
         try {
@@ -55,11 +65,15 @@ public class createNewReminderActivity extends AppCompatActivity {
     public void backToHome(View view){
         // add the stuff to the bd on this click
         // id, title, message, lat, lng
-        NotifDatabase db = NotifDatabase.getDatabase(this);
-        db.insert(new Notif(0, title.getText().toString(), message.getText().toString(), latLng.latitude, latLng.longitude));
-        //Toast.makeText(this, "Reminder Created", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        if(title.getText().toString().equals("") || message.getText().toString().equals("") || latLng == null)
+            Toast.makeText(this,"Fill in all the needed fields", Toast.LENGTH_LONG).show();
+        else{
+            NotifDatabase db = NotifDatabase.getDatabase(this);
+            db.insert(new Notif(0, title.getText().toString(), message.getText().toString(), latLng.latitude, latLng.longitude));
+            //Toast.makeText(this, "Reminder Created", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void toMap(View view){
@@ -70,17 +84,32 @@ public class createNewReminderActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         Log.d("onSave", "onSave");
+        isSavedInstanceState = true;
         outState.putString("title", title.getText().toString());
         outState.putString("message", message.getText().toString());
         outState.putString("latlng", theLocation.getText().toString());
         super.onSaveInstanceState(outState);
     }
 
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        onSaveInstanceState(new Bundle());
+//        Log.d("onPause", "onPause");
+//    }
+
     @Override
-    public void onPause() {
+    protected void onPause(){
         super.onPause();
-        onSaveInstanceState(new Bundle());
-        Log.d("onPause", "onPause");
+        if (!isSavedInstanceState){ // this is a HARD KILL, write to prefs
+            SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("title", title.getText().toString());
+            editor.putString("message", message.getText().toString());
+            editor.putString("latlng", theLocation.getText().toString());
+            editor.commit();
+            Log.d("tag","savedPrefs");
+        }
     }
 
     @Override
@@ -94,6 +123,12 @@ public class createNewReminderActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+        isSavedInstanceState = false;
+    }
+
+    public void clickCancel(View view){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void placePicker(View view){
