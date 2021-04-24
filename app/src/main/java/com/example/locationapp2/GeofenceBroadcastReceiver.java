@@ -42,7 +42,7 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
 
             // Send notification and log the transition details.
             //sendNotification(geofenceTransitionDetails);
-            Log.i("TAG", geofenceTransitionDetails);
+            Log.i("TAG", "here " + geofenceTransitionDetails);
         } else {
             // Log the error.
             Log.e("TAG", "some error here");
