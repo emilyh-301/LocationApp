@@ -2,6 +2,7 @@ package com.example.locationapp2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,18 +14,30 @@ import android.widget.Toast;
 
 import com.essam.simpleplacepicker.MapActivity;
 import com.essam.simpleplacepicker.utils.SimplePlacePicker;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingClient;
+import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.AbstractSequentialList;
+import java.util.ArrayList;
+import java.util.List;
 
 // referenced this website for saving state
 // https://sites.google.com/site/jalcomputing/home/mac-osx-android-programming-tutorial/saving-instance-state
 
 public class createNewReminderActivity extends AppCompatActivity {
 
+    private GeofencingClient geofencingClient;
+    List<Geofence> geofenceList = new ArrayList<>();
     private LatLng latLng = null;
     private EditText title;
     private EditText message;
     private TextView theLocation;
     private boolean isSavedInstanceState = false;
+    private int GEOFENCE_RADIUS_IN_METERS = 301;
+    private int GEOFENCE_EXPIRATION_IN_MILLISECONDS = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +47,7 @@ public class createNewReminderActivity extends AppCompatActivity {
         title = findViewById(R.id.theTitle);
         message = findViewById(R.id.theMessage);
         theLocation = findViewById(R.id.theLocation);
+        geofencingClient = LocationServices.getGeofencingClient(this);
 
         // saving state either with onSaveInstanceState or shared preferences
         if(savedInstanceState != null){
@@ -66,6 +80,7 @@ public class createNewReminderActivity extends AppCompatActivity {
         }
     }
 
+    // invoked when the finished button is clicked
     public void backToHome(View view){
         // add the stuff to the bd on this click
         // id, title, message, lat, lng
@@ -75,6 +90,18 @@ public class createNewReminderActivity extends AppCompatActivity {
             NotifDatabase db = NotifDatabase.getDatabase(this);
             db.insert(new Notif(0, title.getText().toString(), message.getText().toString(), latLng.latitude, latLng.longitude));
 
+            String entry = title.getText().toString();
+            geofenceList.add(new Geofence.Builder()
+                    // Set the request ID of the geofence. This is a string to identify this geofence.
+                    .setRequestId(entry)
+                    .setCircularRegion(latLng.latitude, latLng.longitude, GEOFENCE_RADIUS_IN_METERS)
+                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                    .build());
+
+
+            }
+
             title.setText("");
             message.setText("");
             theLocation.setText("");
@@ -82,7 +109,7 @@ public class createNewReminderActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
-    }
+
 
     public void toMap(View view){
         Intent intent = new Intent(this, MapsActivity.class);
@@ -145,5 +172,25 @@ public class createNewReminderActivity extends AppCompatActivity {
         //bundle.putStringArray(SimplePlacePicker.SUPPORTED_AREAS, supportedAreas);
         //intent.putExtras(bundle);
         startActivityForResult(intent, SimplePlacePicker.SELECT_LOCATION_REQUEST_CODE);
+    }
+    private GeofencingRequest getGeofencingRequest() {
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.addGeofences(geofenceList);
+        return builder.build();
+    }
+
+    private PendingIntent getGeofencePendingIntent() {
+        // Reuse the PendingIntent if we already have it.
+        PendingIntent geofencePendingIntent = null;
+        if (geofencePendingIntent != null) {
+            return geofencePendingIntent;
+        }
+        Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
+        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
+        // calling addGeofences() and removeGeofences().
+        geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.
+                FLAG_UPDATE_CURRENT);
+        return geofencePendingIntent;
     }
 }
