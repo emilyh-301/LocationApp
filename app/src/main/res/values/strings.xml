@@ -26,4 +26,5 @@
     <string name="Title" translatable="false">Title</string>
     <string name="ReminderText" translatable="false">Reminder</string>
     <string name="cancel">Cancel</string>
+    <string name="title_activity_message_dialog">MessageDialog</string>
 </resources>

@@ -15,6 +15,9 @@ import com.essam.simpleplacepicker.MapActivity;
 import com.essam.simpleplacepicker.utils.SimplePlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 
+// referenced this website for saving state
+// https://sites.google.com/site/jalcomputing/home/mac-osx-android-programming-tutorial/saving-instance-state
+
 public class createNewReminderActivity extends AppCompatActivity {
 
     private LatLng latLng = null;
@@ -91,17 +94,10 @@ public class createNewReminderActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        onSaveInstanceState(new Bundle());
-//        Log.d("onPause", "onPause");
-//    }
-
     @Override
     protected void onPause(){
         super.onPause();
-        if (!isSavedInstanceState){ // this is a HARD KILL, write to prefs
+        if (!isSavedInstanceState){ // time to write to prefs
             SharedPreferences prefs = getPreferences(MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("title", title.getText().toString());
