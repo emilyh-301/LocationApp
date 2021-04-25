@@ -1,10 +1,15 @@
 package com.example.locationapp2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,10 +24,13 @@ import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.AbstractSequentialList;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.Object;
 
 // referenced this website for saving state
 // https://sites.google.com/site/jalcomputing/home/mac-osx-android-programming-tutorial/saving-instance-state
@@ -50,18 +58,17 @@ public class createNewReminderActivity extends AppCompatActivity {
         geofencingClient = LocationServices.getGeofencingClient(this);
 
         // saving state either with onSaveInstanceState or shared preferences
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             Log.d("onCreate not null", "onCreate not null");
             title.setText(savedInstanceState.getString("title"));
             message.setText(savedInstanceState.getString("message"));
             theLocation.setText(savedInstanceState.getString("latlng"));
-        }
-        else{
+        } else {
             SharedPreferences prefs = getPreferences(MODE_PRIVATE); // singleton
-            if (prefs != null){
-                title.setText(prefs.getString("title",""));
-                message.setText(prefs.getString("message",""));
-                theLocation.setText(prefs.getString("latlng",""));
+            if (prefs != null) {
+                title.setText(prefs.getString("title", ""));
+                message.setText(prefs.getString("message", ""));
+                theLocation.setText(prefs.getString("latlng", ""));
             }
         }
 
@@ -74,33 +81,66 @@ public class createNewReminderActivity extends AppCompatActivity {
                 latLng = new LatLng(lat, lng);
                 theLocation.setText(latLng.latitude + ", " + latLng.longitude);
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             //System.out.println(e.getMessage());
         }
     }
 
     // invoked when the finished button is clicked
-    public void backToHome(View view){
+    @SuppressLint("MissingPermission")
+    public void backToHome(View view) {
         // add the stuff to the bd on this click
         // id, title, message, lat, lng
-        if(title.getText().toString().equals("") || message.getText().toString().equals("") || latLng == null)
-            Toast.makeText(this,"Fill in all the needed fields", Toast.LENGTH_LONG).show();
-        else{
+        if (title.getText().toString().equals(""))
+            Toast.makeText(this, "Add a title", Toast.LENGTH_LONG).show();
+        else if(message.getText().toString().equals(""))
+            Toast.makeText(this, "Add a message", Toast.LENGTH_LONG).show();
+        else if(latLng == null)
+            Toast.makeText(this, "Select a location", Toast.LENGTH_LONG).show();
+        else {
             NotifDatabase db = NotifDatabase.getDatabase(this);
             db.insert(new Notif(0, title.getText().toString(), message.getText().toString(), latLng.latitude, latLng.longitude));
+            Log.d("TAG", "GEOFENCE after db");
 
             String entry = title.getText().toString();
-            geofenceList.add(new Geofence.Builder()
+            Geofence geo = new Geofence.Builder()
                     // Set the request ID of the geofence. This is a string to identify this geofence.
                     .setRequestId(entry)
                     .setCircularRegion(latLng.latitude, latLng.longitude, GEOFENCE_RADIUS_IN_METERS)
                     .setExpirationDuration(Geofence.NEVER_EXPIRE)
                     .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
-                    .build());
+                    .build();
+            geofenceList.add(geo);
 
+            Log.d("TAG", "GEOFENCE after builder");
 
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
             }
+            Log.d("TAG", "GEOFENCE after check permissions");
+            geofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
+                    .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Geofences added
+                            Log.d("TAG", "geofence added");
+                        }
+                    })
+                    .addOnFailureListener(this, new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Failed to add geofences
+                            Log.d("TAG", "geofence not added");
+                        }
+                    });
+
 
             title.setText("");
             message.setText("");
@@ -108,6 +148,7 @@ public class createNewReminderActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            }
         }
 
 
@@ -193,4 +234,5 @@ public class createNewReminderActivity extends AppCompatActivity {
                 FLAG_UPDATE_CURRENT);
         return geofencePendingIntent;
     }
+
 }

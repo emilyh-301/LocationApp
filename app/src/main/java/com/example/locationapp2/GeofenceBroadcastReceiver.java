@@ -1,9 +1,16 @@
 package com.example.locationapp2;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofenceStatusCodes;
@@ -49,8 +56,44 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
+    // Send a notification
+//    private void sendNotification( String msg ) {
+//        Log.i("TAG", "sendNotification: " + msg );
+//
+//        // Intent to start the main Activity
+//        Intent notificationIntent = new Intent(this, MainActivity.class);
+//        notificationIntent.putExtra("msg", msg);
+//
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+//        stackBuilder.addParentStack(MainActivity.class);
+//        stackBuilder.addNextIntent(notificationIntent);
+//        PendingIntent notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        // Creating and sending Notification
+//        NotificationManager notificatioMng =
+//                (NotificationManager) getSystemService( Context.NOTIFICATION_SERVICE );
+//        notificatioMng.notify(
+//                GEOFENCE_NOTIFICATION_ID,
+//                createNotification(msg, notificationPendingIntent));
+//    }
+//
+//    // Create a notification
+//    private Notification createNotification(String msg, PendingIntent notificationPendingIntent) {
+//        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+//        notificationBuilder
+//                .setSmallIcon(R.drawable.ic_baseline_notifications_active_24)
+//                .setColor(Color.GREEN)
+//                .setContentTitle(msg)
+//                .setContentText("Geofence Notification")
+//                .setContentIntent(notificationPendingIntent)
+//                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)
+//                .setAutoCancel(true);
+//        return notificationBuilder.build();
+//    }
+
+
     private String getGeofenceTransitionDetails(GeofenceBroadcastReceiver geofenceBroadcastReceiver,
                                                 int geofenceTransition, List<Geofence> triggeringGeofences) {
-        return "ok";
+        return "in getGeofenceTransitionDetails method";
     }
 }
