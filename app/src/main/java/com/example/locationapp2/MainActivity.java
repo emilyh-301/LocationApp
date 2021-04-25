@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //NotifDatabase db = NotifDatabase.getDatabase(this);
-        //NotifDatabase.insert(new Notif(0,"Test 2", "This is a test", 55.5, 44.4));
+        NotifDatabase db = NotifDatabase.getDatabase(this);
+        //db.insert(new Notif(0,"Test 2", "This is a test", 55.5, 44.4));
     }
 
     public void newReminder(View view){

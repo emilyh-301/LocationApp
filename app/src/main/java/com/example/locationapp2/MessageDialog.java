@@ -34,25 +34,20 @@ public class MessageDialog extends DialogFragment {
         message = getArguments().getString("message");
         latlng = getArguments().getString("punchline");
         builder.setTitle(message).setMessage(latlng)
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int x) {
-                        listener.onClick();
-                    }
-                });
+                .setNegativeButton("Cancel", null);
         return builder.create();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try{
-            listener = (ClickListener) context;
-        }
-        catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + " must implement ClickListener.");
-        }
-    }
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        try{
+//            listener = (ClickListener) context;
+//        }
+//        catch (ClassCastException e){
+//            throw new ClassCastException(context.toString() + " must implement ClickListener.");
+//        }
+//    }
 
     @Override
     public void onSaveInstanceState(Bundle outstate){

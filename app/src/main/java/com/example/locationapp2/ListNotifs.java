@@ -2,6 +2,7 @@ package com.example.locationapp2;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class ListNotifs extends AppCompatActivity implements MessageDialog.ClickListener {
+public class ListNotifs extends AppCompatActivity {
 
     NotifViewModel notifViewModel;
 
@@ -25,7 +26,7 @@ public class ListNotifs extends AppCompatActivity implements MessageDialog.Click
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_notifs);
         if (savedInstanceState != null) {
-            //boolean filtered = savedInstanceState.getBoolean("filtered");
+
         }
 
         NotifDatabase db = NotifDatabase.getDatabase(this);
@@ -35,35 +36,31 @@ public class ListNotifs extends AppCompatActivity implements MessageDialog.Click
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //NotifViewModel notifViewModel = new ViewModelProvider(this).get(NotifViewModel.class);
-        notifViewModel = new NotifViewModel(this.getApplication()); //.get(NotifViewModel.class);
+        NotifViewModel notifViewModel = new ViewModelProvider(this).get(NotifViewModel.class);
         notifViewModel.getAllNotifs().observe(this, adapter::setNotifs);
     }
 
-    @Override
-    public void onClick(){
-        MessageDialog dialog = new MessageDialog();
-        Bundle args = new Bundle();
-        TextView tv = findViewById(R.id.txtTitle);
-        //args.putString("message", NotifDatabase.getNotifByTitle(tv.getText().toString()), listener);
-        dialog.setArguments(args);
-        dialog.show(getSupportFragmentManager(), "messageDialog");
-    }
 
     public class NotifListAdapter extends RecyclerView.Adapter<NotifListAdapter.NotifViewHolder> {
 
         public class NotifViewHolder extends RecyclerView.ViewHolder {
-            //private TextView tv;
+            private TextView tv;
             private Notif notif;
 
             private NotifViewHolder(View itemView) {
                 super(itemView);
-                //tv = tv.findViewById(R.id.textView);
+                tv = itemView.findViewById(R.id.txtTitle);
+                tv.setOnClickListener(v -> {
+                    MessageDialog dialog = new MessageDialog();
+                    Bundle args = new Bundle();
+                    args.putString("message", notif.message);
+                    dialog.setArguments(args);
+                    dialog.show(getSupportFragmentManager(), "messageDialog");
+                });
             }
         }
         private final LayoutInflater layoutInflater;
-        // notifs is a cached copy of notifs, but what goes here???
-        private List<Notif> notifs; // = (List<Notif>) notifViewModel.getAllNotifs();
+        private List<Notif> notifs;
 
         NotifListAdapter(Context context) {
             layoutInflater = LayoutInflater.from(context);
@@ -78,7 +75,11 @@ public class ListNotifs extends AppCompatActivity implements MessageDialog.Click
 
         @Override
         public void onBindViewHolder(@NonNull NotifListAdapter.NotifViewHolder holder, int position) {
-
+            if(notifs != null){
+                Notif notif = notifs.get(position);
+                holder.tv.setText(notif.title);
+                holder.notif = notif;
+            }
         }
 
         void setNotifs(List<Notif> notifs){
