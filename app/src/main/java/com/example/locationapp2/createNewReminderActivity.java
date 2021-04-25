@@ -98,8 +98,8 @@ public class createNewReminderActivity extends AppCompatActivity {
         else if(latLng == null)
             Toast.makeText(this, "Select a location", Toast.LENGTH_LONG).show();
         else {
-            NotifDatabase db = NotifDatabase.getDatabase(this);
-            db.insert(new Notif(0, title.getText().toString(), message.getText().toString(), latLng.latitude, latLng.longitude));
+            //NotifDatabase db = NotifDatabase.getDatabase(this);
+            NotifDatabase.insert(new Notif(0, title.getText().toString(), message.getText().toString(), latLng.latitude, latLng.longitude));
             Log.d("TAG", "GEOFENCE after db");
 
             String entry = title.getText().toString();

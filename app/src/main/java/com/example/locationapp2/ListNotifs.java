@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class ListNotifs extends AppCompatActivity {
+public class ListNotifs extends AppCompatActivity implements MessageDialog.ClickListener {
 
     NotifViewModel notifViewModel;
 
@@ -28,8 +28,6 @@ public class ListNotifs extends AppCompatActivity {
             //boolean filtered = savedInstanceState.getBoolean("filtered");
         }
 
-        // Set the action bar
-        //setSupportActionBar(findViewById(R.id.toolbar));
         NotifDatabase db = NotifDatabase.getDatabase(this);
 
         RecyclerView recyclerView = findViewById(R.id.lstNotifs);
@@ -40,6 +38,16 @@ public class ListNotifs extends AppCompatActivity {
         //NotifViewModel notifViewModel = new ViewModelProvider(this).get(NotifViewModel.class);
         notifViewModel = new NotifViewModel(this.getApplication()); //.get(NotifViewModel.class);
         notifViewModel.getAllNotifs().observe(this, adapter::setNotifs);
+    }
+
+    @Override
+    public void onClick(){
+        MessageDialog dialog = new MessageDialog();
+        Bundle args = new Bundle();
+        TextView tv = findViewById(R.id.txtTitle);
+        //args.putString("message", NotifDatabase.getNotifByTitle(tv.getText().toString()), listener);
+        dialog.setArguments(args);
+        dialog.show(getSupportFragmentManager(), "messageDialog");
     }
 
     public class NotifListAdapter extends RecyclerView.Adapter<NotifListAdapter.NotifViewHolder> {

@@ -12,6 +12,7 @@ public class MessageDialog extends DialogFragment {
     public interface ClickListener {
         public void onClick();
     }
+
     private ClickListener listener;
     private String message;
     private String latlng;

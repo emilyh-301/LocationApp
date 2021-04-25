@@ -34,11 +34,13 @@ public abstract class NotifDatabase extends RoomDatabase {
     }
 
     // Note this callback will be run
-    private static RoomDatabase.Callback createNotifDatabaseCallback = new RoomDatabase.Callback() {
+    private static RoomDatabase.Callback createNotifDatabaseCallback =
+            new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            createNotifTable();
+            insert(new Notif(0, "default content", "here you go", 1.1, 7.1));
+            //createNotifTable();
         }
     };
 
@@ -56,6 +58,19 @@ public abstract class NotifDatabase extends RoomDatabase {
                 listener.onNotifReturned(notif);
             }
         }.execute(id);
+    }
+
+    public static void getNotifByTitle(String title, NotifListener listener) {
+        new AsyncTask<String, Void, Notif> () {
+            protected Notif doInBackground(String... titles) {
+                return INSTANCE.notifDAO().getByTitle(titles[0]);
+            }
+
+            protected void onPostExecute(Notif notif) {
+                super.onPostExecute(notif);
+                listener.onNotifReturned(notif);
+            }
+        }.execute(title);
     }
 
     public static void insert(Notif notif) {
