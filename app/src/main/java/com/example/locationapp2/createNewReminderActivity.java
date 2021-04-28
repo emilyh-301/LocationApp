@@ -102,6 +102,13 @@ public class createNewReminderActivity extends AppCompatActivity {
             NotifDatabase.insert(new Notif(0, title.getText().toString(), message.getText().toString(), latLng.latitude, latLng.longitude));
             Log.d("TAG", "GEOFENCE after db");
 
+            title.setText("");
+            message.setText("");
+            theLocation.setText("");
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+
             String entry = title.getText().toString();
             Geofence geo = new Geofence.Builder()
                     // Set the request ID of the geofence. This is a string to identify this geofence.
@@ -142,12 +149,12 @@ public class createNewReminderActivity extends AppCompatActivity {
                     });
 
 
-            title.setText("");
-            message.setText("");
-            theLocation.setText("");
-
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+//            title.setText("");
+//            message.setText("");
+//            theLocation.setText("");
+//
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
             }
         }
 
