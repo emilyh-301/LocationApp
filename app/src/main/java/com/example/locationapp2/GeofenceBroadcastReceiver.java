@@ -18,10 +18,14 @@ import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.List;
 
+// we don't use this class
+
 public class GeofenceBroadcastReceiver extends BroadcastReceiver {
 
     public void onReceive(Context context, Intent intent) {
+
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
+        Log.d("tag", "GeofenceBroadcastReceiver");
         if (geofencingEvent.hasError()) {
             String errorMessage = GeofenceStatusCodes
                     .getStatusCodeString(geofencingEvent.getErrorCode());

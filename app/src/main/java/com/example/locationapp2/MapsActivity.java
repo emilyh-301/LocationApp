@@ -27,8 +27,6 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerDragListener {
 
     private GoogleMap mMap;
-    SearchView searchView;
-    LatLng harrisburg = new LatLng(40, -76);
     MarkerOptions myMarker = new MarkerOptions().position(new LatLng(40, -76)).draggable(true);
 
     @Override
@@ -38,39 +36,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-
-//        searchView = findViewById(R.id.idSearchView);
-//
-//        // adding on query listener for our search view.
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//
-//                String location = searchView.getQuery().toString();
-//                List<Address> addressList = null;
-//                // checking if the entered location is null or not.
-//                if (location != null || location.equals("")) {
-//                    // on below line we are creating and initializing a geo coder.
-//                    Geocoder geocoder = new Geocoder(MapsActivity.this);
-//                    try {
-//                        addressList = geocoder.getFromLocationName(location, 1);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    Address address = addressList.get(0);
-//                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-//                    mMap.addMarker(myMarker.position(latLng).title(location));
-//                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-//                }
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
-
         mapFragment.getMapAsync(this);
     }
 

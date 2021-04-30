@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import androidx.fragment.app.DialogFragment;
 
+// Emily Haigh and Avani Sonawane
+
 public class MessageDialog extends DialogFragment {
     public interface ClickListener {
         public void onClick();
@@ -27,10 +29,6 @@ public class MessageDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        /*if(savedInstanceState != null){
-            message = savedInstanceState.getString("message");
-            latlng = savedInstanceState.getString("punchline");
-        }*/
         message = getArguments().getString("message");
         latlng = getArguments().getString("punchline");
         builder.setTitle(message).setMessage(latlng)
@@ -38,22 +36,10 @@ public class MessageDialog extends DialogFragment {
         return builder.create();
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        try{
-//            listener = (ClickListener) context;
-//        }
-//        catch (ClassCastException e){
-//            throw new ClassCastException(context.toString() + " must implement ClickListener.");
-//        }
-//    }
-
     @Override
     public void onSaveInstanceState(Bundle outstate){
         super.onSaveInstanceState(outstate);
         outstate.putString("message", message);
-        outstate.putString("punchline", latlng);
     }
 }
 

@@ -67,8 +67,11 @@ class GeofenceTrasitionService extends IntentService {
         }
 
         String status = null;
-        if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER )
+        if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ){
             status = "Entering ";
+            Log.d("tag", "geofence trans enter");
+        }
+
         //else if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT )
         //    status = "Exiting ";
         return status + TextUtils.join( ", ", triggeringGeofencesList);
@@ -76,7 +79,7 @@ class GeofenceTrasitionService extends IntentService {
 
     // Send a notification
     private void sendNotification( String msg ) {
-        Log.i(TAG, "sendNotification: " + msg );
+        Log.d(TAG, "sendNotification: " + "called sendNotif" );
 
         // Intent to start the main Activity
         Intent notificationIntent = new Intent(this, MainActivity.class);

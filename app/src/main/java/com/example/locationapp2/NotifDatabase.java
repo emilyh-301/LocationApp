@@ -9,6 +9,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+// Emily Haigh and Avani Sonawane
+
 @Database(entities = {Notif.class}, version = 1, exportSchema = false)
 public abstract class NotifDatabase extends RoomDatabase {
     public interface NotifListener {

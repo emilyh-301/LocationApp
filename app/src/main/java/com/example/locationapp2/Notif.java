@@ -22,6 +22,7 @@ public class Notif {
     @ColumnInfo(name = "id")
     public int id;
 
+    // user's set title of their notification
     @ColumnInfo(name = "title")
     public String title;
 

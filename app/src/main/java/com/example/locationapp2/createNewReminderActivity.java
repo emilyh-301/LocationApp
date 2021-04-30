@@ -44,8 +44,8 @@ public class createNewReminderActivity extends AppCompatActivity {
     private EditText message;
     private TextView theLocation;
     private boolean isSavedInstanceState = false;
-    private int GEOFENCE_RADIUS_IN_METERS = 301;
-    private int GEOFENCE_EXPIRATION_IN_MILLISECONDS = 2000;
+    private int GEOFENCE_RADIUS_IN_METERS = 4000;
+    //private int GEOFENCE_EXPIRATION_IN_MILLISECONDS = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +72,7 @@ public class createNewReminderActivity extends AppCompatActivity {
             }
         }
 
+        // if the intent that brought us this activity has latlng info or not
         try {
             double lat = -1.0, lng = -1.0;
             lat = bundle.getDouble("lat");
@@ -87,7 +88,7 @@ public class createNewReminderActivity extends AppCompatActivity {
     }
 
     // invoked when the finished button is clicked
-    @SuppressLint("MissingPermission")
+    //@SuppressLint("MissingPermission")
     public void backToHome(View view) {
         // add the stuff to the bd on this click
         // id, title, message, lat, lng
@@ -101,13 +102,6 @@ public class createNewReminderActivity extends AppCompatActivity {
             //NotifDatabase db = NotifDatabase.getDatabase(this);
             NotifDatabase.insert(new Notif(0, title.getText().toString(), message.getText().toString(), latLng.latitude, latLng.longitude));
             Log.d("TAG", "GEOFENCE after db");
-
-            title.setText("");
-            message.setText("");
-            theLocation.setText("");
-
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
 
             String entry = title.getText().toString();
             Geofence geo = new Geofence.Builder()
@@ -148,16 +142,14 @@ public class createNewReminderActivity extends AppCompatActivity {
                         }
                     });
 
+            title.setText("");
+            message.setText("");
+            theLocation.setText("");
 
-//            title.setText("");
-//            message.setText("");
-//            theLocation.setText("");
-//
-//            Intent intent = new Intent(this, MainActivity.class);
-//            startActivity(intent);
-            }
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
-
+    }
 
     public void toMap(View view){
         Intent intent = new Intent(this, MapsActivity.class);
@@ -212,15 +204,6 @@ public class createNewReminderActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void placePicker(View view){
-        Intent intent = new Intent(this, MapActivity.class);
-        Bundle bundle = new Bundle();
-        //bundle.putString(SimplePlacePicker.API_KEY, apiKey);
-        //bundle.putString(SimplePlacePicker.COUNTRY, country);
-        //bundle.putStringArray(SimplePlacePicker.SUPPORTED_AREAS, supportedAreas);
-        //intent.putExtras(bundle);
-        startActivityForResult(intent, SimplePlacePicker.SELECT_LOCATION_REQUEST_CODE);
-    }
     private GeofencingRequest getGeofencingRequest() {
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
         builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
