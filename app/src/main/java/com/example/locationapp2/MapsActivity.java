@@ -27,12 +27,13 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerDragListener {
 
     private GoogleMap mMap;
-    MarkerOptions myMarker = new MarkerOptions().position(new LatLng(40, -76)).draggable(true);
+    MarkerOptions myMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        myMarker = new MarkerOptions().position(new LatLng(40, -76)).draggable(true);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -79,6 +80,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMarkerDragEnd(Marker marker) {
         myMarker.position(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude));
-        mMap.addMarker(myMarker);
     }
 }

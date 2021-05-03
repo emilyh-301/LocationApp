@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+// didn't need to do this activity because this would have been a third advanced feature
+
 public class createNewTextActivity extends AppCompatActivity {
 
     @Override
